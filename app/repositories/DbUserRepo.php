@@ -4,7 +4,7 @@ class DbUserRepo extends \Exception implements UserRepo{
 	{
 
 	}
-	public function LoginSocial($username,$email,$avatar,$age,$gender,$birthday,$facebook_id = null,$google_id = null,$twitter_id = null)
+	public function LoginSocial($username,$email,$avatar,$age,$gender,$birthday,$location,$facebook_id = null,$google_id = null,$twitter_id = null)
 	{
 		$type = '';
 		if(isset($facebook_id) && $facebook_id != ''){
@@ -47,6 +47,9 @@ class DbUserRepo extends \Exception implements UserRepo{
 				$user->birthday       = isset($birthday) ? $birthday : '';
 				$user->avatar         = isset($avatar) ? $avatar : '';
 				$user->remember_token = Hash::make(Str::random(10));
+				$user->location       = isset($location) ? $location : [];
+
+
 				switch ($type) {
 					case 'facebook':
 						$user->facebook_id = $facebook_id;

@@ -12,10 +12,23 @@ class ApiController extends Controller{
 	public function postLoginSocial()
 	{
 		try {
-			extract(Input::only('username','email','avatar','age','gender','birthday','facebook_id','google_id','twitter_id'));
+			extract(Input::only('username','email','avatar','age','gender','birthday','location','facebook_id','google_id','twitter_id'));
 
-			$user = $this->User->LoginSocial($username,$email,$avatar,$age,$gender,$birthday,$facebook_id,$google_id,$twitter_id);
+			$user = $this->User->LoginSocial($username,$email,$avatar,$age,$gender,$birthday,$location,$facebook_id,$google_id,$twitter_id);
 
+			return App::make('BaseController')->Success($user);
+		} catch (Exception $e) {
+			return App::make('BaseController')->Error($e);	
+		}
+	}
+	/*
+	* Signup with normal account
+	*/
+	public function postSignup()
+	{
+		try {
+			extract(Input::only('username','email','age','gender','avatar','location'));
+			$user = $this->User->SignUp($username,$email,$age,$gender,$avatar,$location);
 			return App::make('BaseController')->Success($user);
 		} catch (Exception $e) {
 			return App::make('BaseController')->Error($e);	
