@@ -65,7 +65,39 @@ class DbUserRepo extends \Exception implements UserRepo{
 				$user->password = '';
 				$user->save();
 				return $user;
-
+	}
+	/*
+	* signup with normal account
+	*/
+	public function SignUp($username,$email,$password,$age,$gender,$avatar,$location)
+	{
+		$vali = [
+			'username' => $username,
+			'email'    => $email,
+			'age'      => $age,
+			'gender'   => $gender,
+		];
+		if(Validator::make($vali,User::$rules)->fails())
+			throw new Exception(STR_ERROR_VALIDATE, 1);
+		else
+			$check_username = User::where('username','=',$username)->count();
+			$check_email = User::where('email','=',$email)->count();
+			if($check_username > 0)
+				throw new Exception(STR_ERROR_USERNAME_EIXST, 2);
+			elseif($check_email > 0)
+				throw new Exception(STR_ERROR_EMAIL_EXIST, 3);
+			else
+				$user = new User();
+				$user->username       = $username;
+				$user->email      = $email;
+				$user->password       = Hash::make($password);
+				$user->age            = $age;
+				$user->gender         = $gender;
+				$user->avatar         = isset($avatar) ? $avatar : '';
+				$user->location       = isset($location) ? $location : [];	
+				$user->remember_token = Hash::make(Str::random(10));
+				$user->save();
+				return $user;
 	}
 }
 ?>

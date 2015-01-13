@@ -27,8 +27,10 @@ class ApiController extends Controller{
 	public function postSignup()
 	{
 		try {
-			extract(Input::only('username','email','age','gender','avatar','location'));
-			$user = $this->User->SignUp($username,$email,$age,$gender,$avatar,$location);
+			extract(Input::only('username','email','password','age','gender','avatar','location'));
+
+			$user = $this->User->SignUp($username,$email,$password,$age,$gender,$avatar,$location);
+
 			return App::make('BaseController')->Success($user);
 		} catch (Exception $e) {
 			return App::make('BaseController')->Error($e);	

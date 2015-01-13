@@ -13,7 +13,9 @@
 define('STR_STATUS_SUCCESS', 'success');
 define('STR_STATUS_ERROR', 'error');
 
-define('STR_ERROR_VALIDATE', 'Error Validate Input');
+define('STR_ERROR_VALIDATE', 'Error Validate Input');// 1
+define('STR_ERROR_USERNAME_EIXST', 'Username already exist'); //2
+define('STR_ERROR_EMAIL_EXIST', 'Email already exist'); //2
 
 
 
