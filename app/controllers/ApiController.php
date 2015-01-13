@@ -36,5 +36,23 @@ class ApiController extends Controller{
 			return App::make('BaseController')->Error($e);	
 		}
 	}
+	public function postUploadAvatar()
+	{
+		try {
+			if(!Input::hasFile('image'))
+				throw new Exception(STR_ERROR_FILE_NOT_FOUND, 4);
+			else
+				$file = Input::file('image');
+	            if(!in_array($file->getClientOriginalExtension(),array('jpg','JPG','jpeg','JPEG','png','PNG','gif','GIF'))){          
+	                throw new Exception();
+	            }
+	            $filename = STR_DIR_UPLOAD_AVATAR_IMAGE.'/'.time().'-'.rand(1,1000).'-'.$file->getClientOriginalName();
+	            $filename = preg_replace('/[^a-zA-Z0-9_\/ %\[\]\.\(\)%&-]/s', '', $filename);
+	            $file->move(STR_DIR_UPLOAD_AVATAR_IMAGE,$filename);
+	            return ['status' => STR_STATUS_SUCCESS,'url' => asset($filename)];
+		}catch(Exception $e){
+          	return App::make('BaseController')->Error($e);
+        }
+	}
 }
 ?>
