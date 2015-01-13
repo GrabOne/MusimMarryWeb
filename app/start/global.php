@@ -10,6 +10,12 @@
 | your classes in the "global" namespace without Composer updating.
 |
 */
+define('STR_STATUS_SUCCESS', 'success');
+define('STR_STATUS_ERROR', 'error');
+
+define('STR_ERROR_VALIDATE', 'Error Validate Input');
+
+
 
 ClassLoader::addDirectories(array(
 

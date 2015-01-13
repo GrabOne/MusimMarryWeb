@@ -26,7 +26,7 @@ return array(
 	|
 	*/
 
-	'default' => 'mysql',
+	'default' => 'mongodb',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -81,6 +81,14 @@ return array(
 			'username' => 'root',
 			'password' => '',
 			'prefix'   => '',
+		),
+		'mongodb' => array(
+		    'driver'   => 'mongodb',
+		    'host'     => $_ENV['DB_HOST'],
+		    'port'     => 27017,
+		    'username' => $_ENV['DB_USER'],
+		    'password' => $_ENV['DB_PASSWORD'],
+		    'database' => $_ENV['DB_DATABASE']
 		),
 
 	),

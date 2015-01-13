@@ -1,26 +1,17 @@
 <?php
+class User extends Moloquent{
+	protected $collection = 'users';
+	protected $hidden = ['password','updated_at','created_at'];
+	public static $rules = [
+		'username' => 'required|max:40',
+		'email'    => 'required|max:40|email',
+		'age'      => 'regex:/^[0-9]+$/|max:2',
+		'birthday' => 'regex:/([0-9]{4})-([0-9]{2})-([0-9]{2})/',
+	];
 
-use Illuminate\Auth\UserTrait;
-use Illuminate\Auth\UserInterface;
-use Illuminate\Auth\Reminders\RemindableTrait;
-use Illuminate\Auth\Reminders\RemindableInterface;
-
-class User extends Eloquent implements UserInterface, RemindableInterface {
-
-	use UserTrait, RemindableTrait;
-
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'users';
-
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
-	protected $hidden = array('password', 'remember_token');
-
+	public function setRememberToken($value)
+    {
+        $this->remember_token = Hash::make($value);
+    }
 }
+?>

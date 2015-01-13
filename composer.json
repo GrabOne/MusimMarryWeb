@@ -5,11 +5,17 @@
 	"license": "MIT",
 	"type": "project",
 	"require": {
-		"laravel/framework": "4.2.*"
+		"laravel/framework": "4.2.*",
+		"guzzlehttp/guzzle": "~5.1",
+		"jenssegers/mongodb": "~2.0",
+		"way/generators": "~3.0",
+		"facebook/php-sdk-v4" : "4.0.*",
+		"artdarek/oauth-4-laravel": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
 			"app/commands",
+			"app/repositories",
 			"app/controllers",
 			"app/models",
 			"app/database/migrations",
