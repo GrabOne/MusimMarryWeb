@@ -18,6 +18,9 @@ define('STR_ERROR_VALIDATE', 'Error Validate Input');// 1
 define('STR_ERROR_USERNAME_EIXST', 'Username already exist'); //2
 define('STR_ERROR_EMAIL_EXIST', 'Email already exist'); //3
 define('STR_ERROR_FILE_NOT_FOUND', 'File not found'); //4
+define('STR_ERROR_USERNAME_NOT_FOUND', 'Username not found'); //5
+define('STR_ERROR_PASSWORD_NOT_MATCH', 'Password not match'); //6
+define('STR_ERROR_REMEMBER_TOKEN', 'Remeber token not match'); //7
 
 
 

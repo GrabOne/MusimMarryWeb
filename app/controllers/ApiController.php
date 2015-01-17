@@ -54,5 +54,36 @@ class ApiController extends Controller{
           	return App::make('BaseController')->Error($e);
         }
 	}
+	public function postLogin()
+	{
+		try {
+			extract(Input::only('username','password'));
+			$user = $this->User->NormalLogin($username,$password);
+			return App::make('BaseController')->Success($user);
+		} catch (Exception $e) {
+			return App::make('BaseController')->Error($e);
+		}
+	}
+	/*
+	* Edit social account
+	*/
+	public function putEditSocialAccount()
+	{
+		try {
+			extract(Input::only('user_id','remember_token','username','birthday','occupation','height','city','language'));
+			$user = $this->User->checkRememberToken($user_id,$remember_token);
+			$this->User->EditSocialAccount($user,$username,$birthday,$occupation,$height,$city,$language);
+			return App::make('BaseController')->Success($user);
+		} catch (Exception $e) {
+			return App::make('BaseController')->Error($e);
+		}
+	}
+	/*
+	*Edit normal account
+	*/
+	public function putEditNormalAccount()
+	{
+		
+	}
 }
 ?>

@@ -63,6 +63,9 @@ class DbUserRepo extends \Exception implements UserRepo{
 				}		
 				$user->is_social = true;
 				$user->password = '';
+				$user->accupation = '';
+				$user->height = '';
+				$user->language = [];
 				$user->save();
 				return $user;
 	}
@@ -77,7 +80,10 @@ class DbUserRepo extends \Exception implements UserRepo{
 			'age'      => $age,
 			'gender'   => $gender,
 		];
-		if(Validator::make($vali,User::$rules)->fails())
+		$rules = User::$rules;
+		$rules['username'] = 'required|max:40|regex:/^[a-zA-Z0-9-_]+$/';
+		$rules['password'] = 'required|min:6|max:40';
+ 		if(Validator::make($vali,User::$rules)->fails())
 			throw new Exception(STR_ERROR_VALIDATE, 1);
 		else
 			$check_username = User::where('username','=',$username)->count();
@@ -96,8 +102,80 @@ class DbUserRepo extends \Exception implements UserRepo{
 				$user->avatar         = isset($avatar) ? $avatar : '';
 				$user->location       = isset($location) ? $location : [];	
 				$user->remember_token = Hash::make(Str::random(10));
+				$user->accupation = '';
+				$user->height = '';
+				$user->language = [];
 				$user->save();
+				Cache::put('u_'.$user->_id,$user,10);
 				return $user;
+	}
+	/*
+	* Check Remember Token
+	*/
+	public function checkRememberToken($user_id,$remember_token)
+	{
+		if(Cache::has('u_'.$user_id))
+			$user = Cache::get('u_'.$user_id);
+		else
+			$user = User::find($user_id);
+		if($user->remember_token != $remember_token)
+			throw new Exception(STR_ERROR_REMEMBER_TOKEN, 7);
+		else 
+			return $user;
+	}
+	/*
+	* Normal login
+	*/
+	public function NormalLogin($username,$password)
+	{
+		$vali = [
+			'username' => $username,
+			'password' => $password,
+		];
+		if(Validator::make($vali,User::$LoginRules)->fails())
+			throw new Exception(STR_ERROR_VALIDATE, 1);
+		else
+			$user = User::NormalLogin($username,$password);
+			Cache::put('u_'.$user->_id,$user,10);
+			return $user;
+			
+	}
+	/*
+	* Edit social account
+	*/
+	public function EditSocialAccount($user,$username,$birthday,$occupation,$height,$city,$language)
+	{
+		$vali = [
+			'username'   => $username,
+			'birthday'   => $birthday,
+			'occupation' => $occupation,
+			'height'     => $height,
+			'city'       => $city,
+			'language'   => $language,
+ 		];
+ 		$rules = [
+			'username'   => 'max:40|min:4',
+			'occupation' => 'max:100',
+			'height'     => 'regex:/^[0-9,\.]+$/|max:6',
+			'city'       => 'max:100',
+ 		];
+ 		if(Validator::make($vali,$rules)->fails())
+ 			throw new Exception(STR_ERROR_VALIDATE, 1);
+ 		else
+			isset($username) ? $user->username     = $username : '';
+			isset($birthday) ? $user->birthday     = $birthday : '';
+			isset($occupation) ? $user->occupation = $occupation : '';
+			isset($height) ? $user->height         = $height : '';
+			if(isset($city)){
+				$location = $user->location;
+				$location['city'] = $city;
+				$user->location = $location;
+			}
+			if(isset($language)){
+				$user->language = $language;
+			}
+
+ 			
 	}
 }
 ?>
