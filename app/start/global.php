@@ -13,6 +13,8 @@
 define('STR_STATUS_SUCCESS', 'success');
 define('STR_STATUS_ERROR', 'error');
 define('STR_DIR_UPLOAD_AVATAR_IMAGE', 'upload/avatar');
+define('CACHE_TIME', 10);
+
 
 define('STR_ERROR_VALIDATE', 'Error Validate Input');// 1
 define('STR_ERROR_USERNAME_EIXST', 'Username already exist'); //2

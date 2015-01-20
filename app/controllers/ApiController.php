@@ -54,6 +54,20 @@ class ApiController extends Controller{
           	return App::make('BaseController')->Error($e);
         }
 	}
+	/*
+	* Change user avatar
+	*/
+	public function putChangeAvatar()
+	{
+		try {
+			extract(Input::only('user_id','remember_token','avatar'));
+			$user = $this->User->checkRememberToken($user_id,$remember_token);
+			$this->User->changeUserAvatar($user,$avatar);
+			return App::make('BaseController')->Success();
+		} catch (Exception $e) {
+			return App::make('BaseController')->Error($e);
+		}
+	}
 	public function postLogin()
 	{
 		try {
@@ -83,7 +97,14 @@ class ApiController extends Controller{
 	*/
 	public function putEditNormalAccount()
 	{
-		
+		try {
+			extract(Input::only('user_id','remember_token','username','birthday','occupation','height','city','language','password'));
+			$user = $this->User->checkRememberToken($user_id,$remember_token);
+			$this->User->EditNormalAccount($user,$username,$birthday,$occupation,$height,$city,$language,$password);
+			return App::make('BaseController')->Success($user);
+		} catch (Exception $e) {
+			return App::make('BaseController')->Error($e);
+		}
 	}
 }
 ?>

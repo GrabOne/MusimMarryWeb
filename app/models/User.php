@@ -29,6 +29,13 @@ class User extends Moloquent implements UserInterface{
     		throw new Exception(STR_ERROR_PASSWORD_NOT_MATCH, 6);
     }
     /*
+    * Hash password
+    */
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = Hash::make($password);
+    }
+    /*
     * UserInterface 
     */
     public function getAuthIdentifier()

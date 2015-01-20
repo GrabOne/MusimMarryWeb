@@ -96,7 +96,7 @@ class DbUserRepo extends \Exception implements UserRepo{
 				$user = new User();
 				$user->username       = $username;
 				$user->email      = $email;
-				$user->password       = Hash::make($password);
+				$user->password       = $password;
 				$user->age            = $age;
 				$user->gender         = $gender;
 				$user->avatar         = isset($avatar) ? $avatar : '';
@@ -106,7 +106,7 @@ class DbUserRepo extends \Exception implements UserRepo{
 				$user->height = '';
 				$user->language = [];
 				$user->save();
-				Cache::put('u_'.$user->_id,$user,10);
+				Cache::put('u_'.$user->_id,$user,CACHE_TIME);
 				return $user;
 	}
 	/*
@@ -136,7 +136,7 @@ class DbUserRepo extends \Exception implements UserRepo{
 			throw new Exception(STR_ERROR_VALIDATE, 1);
 		else
 			$user = User::NormalLogin($username,$password);
-			Cache::put('u_'.$user->_id,$user,10);
+			Cache::put('u_'.$user->_id,$user,CACHE_TIME);
 			return $user;
 			
 	}
@@ -155,6 +155,7 @@ class DbUserRepo extends \Exception implements UserRepo{
  		];
  		$rules = [
 			'username'   => 'max:40|min:4',
+			'birthday'   => 'date',
 			'occupation' => 'max:100',
 			'height'     => 'regex:/^[0-9,\.]+$/|max:6',
 			'city'       => 'max:100',
@@ -174,8 +175,56 @@ class DbUserRepo extends \Exception implements UserRepo{
 			if(isset($language)){
 				$user->language = $language;
 			}
-
- 			
+			$user->save();
+			return $user;
+	}
+	/*
+	* Change user avatar
+	*/
+	public function changeUserAvatar($user,$avatar)
+	{
+		$user->avatar = $avatar;
+		$user->save();
+		Cache::put('u_'.$user->id,$user,CACHE_TIME);
+	}
+	/*
+	* Edit normal account
+	*/
+	public function EditNormalAccount($user,$username,$birthday,$occupation,$height,$city,$language,$password)
+	{
+		$vali = [
+			'username'   => $username,
+			'birthday'   => $birthday,
+			'occupation' => $occupation,
+			'height'     => $height,
+			'city'       => $city,
+			'language'   => $language,
+ 		];
+ 		$rules = [
+			'username'   => 'max:40|min:4|regex:/^[a-zA-Z0-9-_]/',
+			'birthday'   => 'date',
+			'occupation' => 'max:100',
+			'height'     => 'regex:/^[0-9,\.]+$/|max:6',
+			'city'       => 'max:100',
+ 		];
+ 		if(Validator::make($vali,$rules)->fails())
+ 			throw new Exception(STR_ERROR_VALIDATE, 1);
+ 		else
+			isset($username) ? $user->username     = $username : '';
+			isset($birthday) ? $user->birthday     = $birthday : '';
+			isset($occupation) ? $user->occupation = $occupation : '';
+			isset($height) ? $user->height         = $height : '';
+			if(isset($city)){
+				$location = $user->location;
+				$location['city'] = $city;
+				$user->location = $location;
+			}
+			if(isset($language)){
+				$user->language = $language;
+			}
+			isset($password) ? $user->password = $password : '';
+			$user->save();
+			return $user;
 	}
 }
 ?>

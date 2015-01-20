@@ -11,6 +11,13 @@ interface UserRepo {
 	* Edit social Account
 	*/
 	public function EditSocialAccount($user,$username,$birthday,$occupation,$height,$city,$language);
-
+	/*
+	* Change user avatar
+	*/
+	public function changeUserAvatar($user,$avatar);
+	/*
+	* Edit normal account
+	*/
+	public function EditNormalAccount($user,$username,$birthday,$occupation,$height,$city,$language,$password);
 }
 ?>
