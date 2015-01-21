@@ -34,8 +34,8 @@ Cache-Control: no-cache
 'username'    => 'required|max:40',
 'email'       => 'required|max:40|email',
 'age'         => 'regex:/^[0-9]+$/|max:2',
-'birthday'    => 'regex:/([0-9]{4})-([0-9]{2})-([0-9]{2})/',
-'gender'      => 'regex:/(fe)?male/',
+'birthday'    => 'YYYY-MM-DD',
+'gender'      => 'regex:/(wo)?men/',
 'facebook_id' => 'regex:/^[0-9]+$/|max:20|min:6'
 ```
 ##### Return
@@ -96,8 +96,8 @@ Cache-Control: no-cache
 'username'    => 'required|max:40|regex:/^[a-zA-Z0-9-_]+$/',
 'email'       => 'required|max:40|email',
 'age'         => 'regex:/^[0-9]+$/|max:2',
-'birthday'    => 'regex:/([0-9]{4})-([0-9]{2})-([0-9]{2})/',
-'gender'      => 'regex:/(fe)?male/',
+'birthday'    => 'YYYY-MM-DD',
+'gender'      => 'regex:/(wo)?men/',
 'password'    => 'required|min:6|max:40',
 ```
 ##### Return
@@ -185,7 +185,7 @@ Cache-Control: no-cache
 'occupation' => 'max:100',
 'height'     => 'regex:/^[0-9,\.]+$/|max:6',
 'city'       => 'max:100',
-'birthday'    => 'regex:/([0-9]{4})-([0-9]{2})-([0-9]{2})/',
+'birthday'    => 'YYYY-MM-DD',
 ```
 ##### return
 ```
