@@ -1,8 +1,9 @@
 <?php
 class DbUserRepo extends \Exception implements UserRepo{
-	public function __construct($message = '',$error_code = null)
+	protected $Promocode;
+	public function __construct($message = '',$error_code = null,PromocodeRepo $Promocode)
 	{
-
+		$this->Promocode = $Promocode;
 	}
 	public function LoginSocial($username,$email,$avatar,$age,$gender,$birthday,$location,$facebook_id = null,$google_id = null,$twitter_id = null)
 	{
@@ -37,8 +38,9 @@ class DbUserRepo extends \Exception implements UserRepo{
 				'gender'   => $gender,
 				'birthday' => $birthday,
 			];
-			if(Validator::make($vali,User::$rules)->fails())
-				throw new Exception(STR_ERROR_VALIDATE, 1);
+			$validator = Validator::make($vali,User::$rules);
+			if($validator->fails())
+				throw new Exception($validator->messages(), 1);
 			else
 				$user = new User();
 				$user->username       = $username;
@@ -48,6 +50,7 @@ class DbUserRepo extends \Exception implements UserRepo{
 				$user->avatar         = isset($avatar) ? $avatar : '';
 				$user->remember_token = Hash::make(Str::random(10));
 				$user->location       = isset($location) ? $location : [];
+				$user->gender         = isset($gender) ? $gender : '';
 
 
 				switch ($type) {
@@ -63,9 +66,10 @@ class DbUserRepo extends \Exception implements UserRepo{
 				}		
 				$user->is_social = true;
 				$user->password = '';
-				$user->accupation = '';
+				$user->occupation = '';
 				$user->height = '';
 				$user->language = [];
+				$user->promocode = $this->Promocode->GenerateCode();
 				$user->save();
 				return $user;
 	}
@@ -83,8 +87,10 @@ class DbUserRepo extends \Exception implements UserRepo{
 		$rules = User::$rules;
 		$rules['username'] = 'required|max:40|regex:/^[a-zA-Z0-9-_]+$/';
 		$rules['password'] = 'required|min:6|max:40';
- 		if(Validator::make($vali,User::$rules)->fails())
-			throw new Exception(STR_ERROR_VALIDATE, 1);
+
+		$validator = Validator::make($vali,User::$rules);
+ 		if($validator->fails())
+			throw new Exception($validator->messages(), 1);
 		else
 			$check_username = User::where('username','=',$username)->count();
 			$check_email = User::where('email','=',$email)->count();
@@ -105,6 +111,7 @@ class DbUserRepo extends \Exception implements UserRepo{
 				$user->accupation = '';
 				$user->height = '';
 				$user->language = [];
+				$user->promocode = $this->Promocode->GenerateCode();
 				$user->save();
 				Cache::put('u_'.$user->_id,$user,CACHE_TIME);
 				return $user;
@@ -118,10 +125,13 @@ class DbUserRepo extends \Exception implements UserRepo{
 			$user = Cache::get('u_'.$user_id);
 		else
 			$user = User::find($user_id);
-		if($user->remember_token != $remember_token)
-			throw new Exception(STR_ERROR_REMEMBER_TOKEN, 7);
-		else 
-			return $user;
+			if(empty($user))
+				throw new Exception(Lang::get('validation.not_found',['attribute' => 'User']), 5);
+			else
+				if($user->remember_token != $remember_token)
+					throw new Exception(STR_ERROR_REMEMBER_TOKEN, 7);
+				else 
+					return $user;
 	}
 	/*
 	* Normal login
@@ -132,8 +142,9 @@ class DbUserRepo extends \Exception implements UserRepo{
 			'username' => $username,
 			'password' => $password,
 		];
-		if(Validator::make($vali,User::$LoginRules)->fails())
-			throw new Exception(STR_ERROR_VALIDATE, 1);
+		$validator = Validator::make($vali,User::$LoginRules);
+		if($validator->fails())
+			throw new Exception($validator->messages(), 1);
 		else
 			$user = User::NormalLogin($username,$password);
 			Cache::put('u_'.$user->_id,$user,CACHE_TIME);
@@ -160,8 +171,9 @@ class DbUserRepo extends \Exception implements UserRepo{
 			'height'     => 'regex:/^[0-9,\.]+$/|max:6',
 			'city'       => 'max:100',
  		];
- 		if(Validator::make($vali,$rules)->fails())
- 			throw new Exception(STR_ERROR_VALIDATE, 1);
+ 		$validator = Validator::make($vali,$rules);
+ 		if($validator->fails())
+ 			throw new Exception($validator->messages(), 1);
  		else
 			isset($username) ? $user->username     = $username : '';
 			isset($birthday) ? $user->birthday     = $birthday : '';
@@ -207,8 +219,9 @@ class DbUserRepo extends \Exception implements UserRepo{
 			'height'     => 'regex:/^[0-9,\.]+$/|max:6',
 			'city'       => 'max:100',
  		];
- 		if(Validator::make($vali,$rules)->fails())
- 			throw new Exception(STR_ERROR_VALIDATE, 1);
+ 		$validator = Validator::make($vali,$rules);
+ 		if($validator->fails())
+ 			throw new Exception($validator->messages(), 1);
  		else
 			isset($username) ? $user->username     = $username : '';
 			isset($birthday) ? $user->birthday     = $birthday : '';
@@ -225,6 +238,78 @@ class DbUserRepo extends \Exception implements UserRepo{
 			isset($password) ? $user->password = $password : '';
 			$user->save();
 			return $user;
+	}
+	public function Search($gender,$age,$distance,$language,$occupations,$height,$coordinates)
+	{
+		$vali = [
+			'gender'      => $gender,
+			'age'         => $age,
+			'distance'    => $distance,
+			'language'    => $language,
+			'occupations' => $occupations,
+			'height'      => $height,
+			'coordinates' => $coordinates,
+		];
+		$rules = [
+			'gender' => 'regex:/(wo)?men/',
+		];
+		$validator = Validator::make($vali,$rules);
+		if($validator->fails())
+			throw new Exception($validator->messages(), 1);
+		else
+			$data = [];
+			$users = User::select('_id','accupation','age','avatar','birthday','email','height','language','location','promocode','username')->get();
+			foreach ($users as $user) {
+				// if($user->gender != $gender){
+				// 	continue;
+				// }
+				$array_intersect = array_intersect($language,$user->language);
+				if(count($array_intersect) == 0){
+					continue;
+				}
+				if($user->height < $height['from'] || $user->height > $height['to']){
+					continue;
+				}
+
+				$dis = App::make('BaseController')->calcDistance($coordinates['lat'],$coordinates['lng'],$user->location['coordinates']['lat'],$user->location['coordinates']['lng']);
+				
+
+				if($dis < $distance['from'] || $dis > $distance['to']){
+					continue;
+				}else{
+					$user->distance = $dis;
+					array_push($data, $user);
+				}
+			}
+			$count = count($data) - 1;
+			if($count >= 0){
+				for($i = 0; $i < $count; $i++){
+					for($j = 0;$j<$count;$j++){
+						if($data[$j] > $data[$j+1]){
+							$tmp = $data[$j];
+							$data[$j] = $data[$j+1];
+							$data[$j+1] = $tmp;
+						}
+					}
+				}
+			}
+			return $data;
+			
+	}
+	public function getProfile($user_id)
+	{
+		if(Cache::has('u_'.$user_id))
+			return Cache::get('u_'.$user_id);
+		else
+			$user = User::find($user_id);
+			if(empty($user))
+				throw new Exception(Lang::get('validation.not_found',['attribute' => 'User']), 5);
+			else
+				unset($user->remember_token);
+				unset($user->facebook_id);
+				unset($user->google_id);
+				unset($user->twitter_id);
+				return $user;
 	}
 }
 ?>

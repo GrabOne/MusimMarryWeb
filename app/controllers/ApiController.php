@@ -85,8 +85,11 @@ class ApiController extends Controller{
 	{
 		try {
 			extract(Input::only('user_id','remember_token','username','birthday','occupation','height','city','language'));
+			
 			$user = $this->User->checkRememberToken($user_id,$remember_token);
+			
 			$this->User->EditSocialAccount($user,$username,$birthday,$occupation,$height,$city,$language);
+			
 			return App::make('BaseController')->Success($user);
 		} catch (Exception $e) {
 			return App::make('BaseController')->Error($e);
@@ -99,8 +102,37 @@ class ApiController extends Controller{
 	{
 		try {
 			extract(Input::only('user_id','remember_token','username','birthday','occupation','height','city','language','password'));
+			
 			$user = $this->User->checkRememberToken($user_id,$remember_token);
+			
 			$this->User->EditNormalAccount($user,$username,$birthday,$occupation,$height,$city,$language,$password);
+			
+			return App::make('BaseController')->Success($user);
+		} catch (Exception $e) {
+			return App::make('BaseController')->Error($e);
+		}
+	}
+	/*
+	* Search
+	*/
+	public function postSearch()
+	{
+		try {
+			extract(Input::all('user_id','remember_token','gender','age','distance','language','occupations','height','coordinates'));
+
+			$this->User->checkRememberToken($user_id,$remember_token);
+
+			$data = $this->User->Search($gender,$age,$distance,$language,$occupations,$height,$coordinates);
+			
+			return ['status' => 'success', 'data' => $data];
+		} catch (Exception $e) {
+			return App::make('BaseController')->Error($e);
+		}
+	}
+	public function getProfile($user_id)
+	{
+		try {
+			$user = $this->User->getProfile($user_id);
 			return App::make('BaseController')->Success($user);
 		} catch (Exception $e) {
 			return App::make('BaseController')->Error($e);

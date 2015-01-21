@@ -19,5 +19,14 @@ interface UserRepo {
 	* Edit normal account
 	*/
 	public function EditNormalAccount($user,$username,$birthday,$occupation,$height,$city,$language,$password);
+	/*
+	* Search Profile
+	*/
+	public function Search($gender,$age,$distance,$language,$occupations,$height,$coordinates);
+	/*
+	* get user profile
+	*/
+	public function getProfile($user_id);
+
 }
 ?>

@@ -28,4 +28,16 @@ class BaseController extends Controller {
 		else
 			return ['status' => STR_STATUS_ERROR];
 	}
+	function calcDistance($lat1,$lng1, $lat2, $lng2){
+		//RAD
+		$b1 = ($lat1/180)*M_PI;
+		$b2 = ($lat2/180)*M_PI;
+		$l1 = ($lng1/180)*M_PI;
+		$l2 = ($lng2/180)*M_PI;
+		//equatorial radius
+		$r = 3986; //r in mile
+		// Formel
+		$e = acos( sin($b1)*sin($b2) + cos($b1)*cos($b2)*cos($l2-$l1) );
+		return round($r*$e, 4);
+	}
 }

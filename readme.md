@@ -62,6 +62,7 @@ Cache-Control: no-cache
         "accupation": "",
         "height": "",
         "language": [],
+        "promocode": "code6",
         "_id": "54bad1e5bffebc7d0b8b4568"
     }
 }
@@ -118,6 +119,7 @@ Cache-Control: no-cache
             }
         },
         "remember_token": "$2y$10$ZQnov14w6J5FNv2TFMirlOJZ/xl0CE/sEvCft2pFRInnbFFnAuJG.",
+        "promocode": "code6",
         "_id": "54ba01d693d9b73c587b23c6"
     }
 }
@@ -154,7 +156,8 @@ Cache-Control: no-cache
         "remember_token": "$2y$10$1mvPGAyV93dRRG1aJsnUPekNUCnssNpRP7wfxIS2psTAiWp2cQnp.",
         "accupation": "",
         "height": "",
-        "language": []
+        "language": [],
+        "promocode": "code6",
     }
 }
 ```
@@ -203,7 +206,8 @@ Cache-Control: no-cache
         "height": "1.75",
         "language": "Vietnamese",
         "birthday": "1992-08-08",
-        "occupation": "Coder"
+        "occupation": "Coder",
+        "promocode": "code6",
     }
 }
 ```
@@ -291,7 +295,133 @@ Cache-Control: no-cache
         "height": "1.75",
         "language": "vnese",
         "birthday": "1992-08-06",
-        "occupation": "coder :D"
+        "occupation": "coder :D",
+        "promocode": "code6",
+    }
+}
+```
+### 8. Search
+```
+POST /api/v1/search HTTP/1.1
+Host: muslimmarry.dev
+Content-Type: application/json
+Cache-Control: no-cache
+
+{  
+    "user_id":"54bed8fabffebc43128b4567",
+    "remember_token":"$2y$10$I.oqq/3onRku8mUMKhU8r.sXekIUfjJzJrre6MzaYwBZQ.JmsZYPO",
+    "gender":"women",
+    "age":{"from":"18","to":"21"},
+    "distance":{"from":"1","to":"10"},
+    "language":[
+                "english",
+                "vietnamese"
+                ],
+    "occupations":[
+                "coder",
+                "designer"
+                ],
+    "height":{
+                "from":"0",
+                "to":"1.75"
+            },
+    "coordinates":{
+                "lat":"17.100",
+                "lng":"104.000"
+            }
+}
+```
+##### Regex
+```
+'gender' => 'regex:/(wo)?men/',
+```
+##### Return
+```
+{
+    "status": "success",
+    "data": [
+        {
+            "_id": "54beeedbbffebc4c128b4568",
+            "occupation": "",
+            "age": "23",
+            "avatar": "User_avatar_url",
+            "birthday": "1992-12-13",
+            "email": "user_email@example.com",
+            "height": "1.65",
+            "language": [
+                "vietnamese"
+            ],
+            "location": {
+                "country": "vietname",
+                "city": "HN",
+                "coordinates": {
+                    "lat": "17.100",
+                    "lng": "104.0000"
+                }
+            },
+            "promocode": "Xl3AiQ",
+            "username": "Username",
+            "distance": 2.2249
+        },
+        {
+            "_id": "54beasfdbbff345c4c124f7fh8",
+            "occupation": "",
+            "age": "23",
+            "avatar": "User_avatar_url",
+            "birthday": "1992-12-13",
+            "email": "user_email@example.com",
+            "height": "1.65",
+            "language": [
+                "vietnamese"
+            ],
+            "location": {
+                "country": "vietname",
+                "city": "HN",
+                "coordinates": {
+                    "lat": "17.200",
+                    "lng": "104.0000"
+                }
+            },
+            "promocode": "CODE6_",
+            "username": "Username",
+            "distance": 6.9569
+        }
+    ]
+}
+```
+### 9. Get User Profile 
+```
+GET /api/v1/profile/54beeedbbffebc4c128b4568 HTTP/1.1
+Host: muslimmarry.dev
+Content-Type: application/json
+Cache-Control: no-cache
+````
+##### Result
+```
+{
+    "status": "success",
+    "data": {
+        "_id": "54beeedbbffebc4c128b4568",
+        "accupation": "",
+        "age": "23",
+        "avatar": "user_avatar_url",
+        "birthday": "1992-12-13",
+        "email": "email@example.com",
+        "height": "1.65",
+        "is_social": true,
+        "language": [
+            "vietnamese"
+        ],
+        "location": {
+            "country": "vietname",
+            "city": "HN",
+            "coordinates": {
+                "lat": "17.000",
+                "lng": "104.0000"
+            }
+        },
+        "promocode": "Xl3AiQ",
+        "username": "username"
     }
 }
 ```

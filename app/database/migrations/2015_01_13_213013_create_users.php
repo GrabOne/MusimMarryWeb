@@ -16,6 +16,8 @@ class CreateUsers extends Migration {
 		{
 			$table->increments('id');
 			$table->index('email');
+			$table->index('promocode');
+			$table->unique('promocode');
 			$table->timestamps();
 		});
 	}
