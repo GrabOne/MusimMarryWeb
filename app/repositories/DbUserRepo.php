@@ -131,7 +131,18 @@ class DbUserRepo extends \Exception implements UserRepo{
 				if($user->remember_token != $remember_token)
 					throw new Exception(STR_ERROR_REMEMBER_TOKEN, 7);
 				else 
+					Cache::put('u_'.$user_id,$user,CACHE_TIME);
 					return $user;
+	}
+	/*
+	* Update UserCache
+	*/
+	public function UpdateUserCache($user_id)
+	{
+		Cache::forget('u_'.$user_id);
+		$user = User::find($user_id);
+		Cache::put('u_'.$user_id,$user,CACHE_TIME);
+		return $user;
 	}
 	/*
 	* Normal login

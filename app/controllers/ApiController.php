@@ -1,9 +1,10 @@
 <?php
 class ApiController extends Controller{
-	protected $User;
-	public function __construct(UserRepo $User)
+	protected $User,$Payment;
+	public function __construct(UserRepo $User,PaymentRepo $Payment)
 	{
 		$this->User = $User;
+		$this->Payment = $Payment;
 	}
 	public function getIndex()
 	{
@@ -137,6 +138,124 @@ class ApiController extends Controller{
 		} catch (Exception $e) {
 			return App::make('BaseController')->Error($e);
 		}
+	}
+	/*********************************************************************************/
+										/*PAYMENT*/
+	/*********************************************************************************/
+	public function postTransition()
+	{
+		try {
+			extract(Input::only('amount','creditCard'));
+			$data = App::make('PaymentController')->Transition($amount,$creditCard);
+			return App::make('BaseController')->Success($data);
+		} catch (Exception $e) {
+			return App::make('BaseController')->Error($e);
+		}
+	}
+	/*
+	* get all plan
+	*/
+	public function getAllPlan()
+	{
+		return App::make('PaymentController')->getAllPlan();
+	}
+	/*
+	* Creat a customer 
+	*/
+	public function postCreateCustomer()
+	{
+		try {
+			extract(Input::only('firstName','lastName','creditCard'));
+			$data = App::make('PaymentController')->CreateCustomer($firstName,$lastName,$creditCard);
+			return App::make('BaseController')->Success($data);
+		} catch (Exception $e) {
+			return App::make('BaseController')->Error($e);
+		}
+	}
+	/*
+	* create subscription
+	*/
+	public function postCreateSubscription()
+	{
+		try {
+			$data = App::make('PaymentController')->CreateSubscription($token,$plan);
+			return App::make('BaseController')->Success($data);
+		} catch (Exception $e) {
+			return App::make('BaseController')->Error($e);
+		}
+	}
+	/*
+	* Pay with nonce
+	*/
+	public function postPayWithNonce()
+	{
+		try {
+			extract(Input::only('user_id','remember_token','nonce','amount'));
+
+			$this->User->checkRememberToken();
+
+			$data = App::make('PaymentController')->PayWithNonce($nonce,$amount);
+			
+			return App::make('BaseController')->Success($data);
+		} catch (Exception $e) {
+			return App::make('BaseController')->Error($e);
+		}
+	}
+	/*
+	* subscription with nonce
+	*/
+	public function postSubscriptionWithNonce()
+	{
+		try {
+			extract(Input::only('user_id','remember_token','nonce','plan_id'));
+			
+			$user = $this->User->checkRememberToken($user_id,$remember_token);
+			
+			if(isset($user->customer_id) || $user->customer_id != null){
+				$customer_id = $user->customer_id;
+			}else{
+				$customer_id = $this->Payment->CreateCustomer($user);
+				$user = $this->User->UpdateUserCache($user_id);
+			}
+			
+			$token = $this->Payment->CreatePaymentMethodToken($customer_id,$nonce);
+
+			$subscription = $this->Payment->CreateSubscription($user,$token,$plan_id);
+
+			return App::make('BaseController')->Success($subscription);
+					
+		} catch (Exception $e) {
+			return App::make('BaseController')->Error($e);
+		}
+	}
+	/*
+	* Delete customer 
+	*/
+	public function deleteCustomer()
+	{
+		try {
+			extract(Input::only('customer_id'));
+			$data = App::make('PaymentController')->DeleteCustomer($customer_id);
+			return App::make('BaseController')->Success($data);
+		} catch (Exception $e) {
+			return App::make('BaseController')->Error($e);
+		}
+	}
+	/*
+	* find a customer 
+	*/
+	public function getFindCustomer($customer_id)
+	{
+		$customer = App::make('PaymentController')->FindCustomer($customer_id);
+		return var_dump($customer);
+	}
+	/*
+	* get all customer
+	*/
+	public function getAllCustomer()
+	{
+		$customers = App::make('PaymentController')->getAllCustomer();
+		return $customers->_ids;
 	}
 }
 ?>

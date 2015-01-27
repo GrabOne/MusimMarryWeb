@@ -10,7 +10,9 @@
 		"jenssegers/mongodb": "~2.0",
 		"way/generators": "~3.0",
 		"facebook/php-sdk-v4" : "4.0.*",
-		"artdarek/oauth-4-laravel": "dev-master"
+		"artdarek/oauth-4-laravel": "dev-master",
+		"braintree/braintree_php" : "2.35.2",
+		"paypal/rest-api-sdk-php" : "0.5.*"
 	},
 	"autoload": {
 		"classmap": [

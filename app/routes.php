@@ -11,6 +11,7 @@
 |
 */
 Route::controller('api/v1','ApiController');
+Route::controller('test','TestController');
 Route::get('/', function()
 {
 	return View::make('hello');
@@ -18,3 +19,4 @@ Route::get('/', function()
 
 App::bind('UserRepo','DbUserRepo');
 App::bind('PromocodeRepo','DbPromocodeRepo');
+App::bind('PaymentRepo','DbPaymentRepo');
