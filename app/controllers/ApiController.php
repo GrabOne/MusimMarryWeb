@@ -257,5 +257,46 @@ class ApiController extends Controller{
 		$customers = App::make('PaymentController')->getAllCustomer();
 		return $customers->_ids;
 	}
+	/*
+	* check Username exist
+	*/
+	public function postCheckUsernameExist()
+	{
+		try {
+			extract(Input::only('username'));
+			$data = $this->User->CheckUsernameExist($username);
+			return App::make('BaseController')->Success($data);
+		} catch (Exception $e) {
+			return App::make('BaseController')->Error($e);
+		}
+	}
+	/*
+	* Check email exist
+	*/
+	public function postCheckEmailExist()
+	{
+		try {
+			extract(Input::only('email'));
+			$data = $this->User->CheckEmailExist($email);
+			return App::make('BaseController')->Success($data);
+		} catch (Exception $e) {
+			return App::make('BaseController')->Error($e);
+		}
+	}
+	/*
+	* check username & email exist 
+	*/
+	public function postCheckUsernameAndEmailExist()
+	{
+		try {
+			extract(Input::only('email','username'));
+			$data = [
+				'username' => $this->User->CheckUsernameExist($username),
+				'email'    => $this->User->CheckEmailExist($email);
+			]; 
+		} catch (Exception $e) {
+			return App::make('BaseController')->Error($e);
+		}
+	}
 }
 ?>

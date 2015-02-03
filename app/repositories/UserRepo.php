@@ -27,6 +27,13 @@ interface UserRepo {
 	* get user profile
 	*/
 	public function getProfile($user_id);
-
+	/*
+	* check username exist
+	*/
+	public function CheckUsernameExist($username);
+	/*
+	* check Email exist
+	*/
+	public function CheckEmailExist($email);
 }
 ?>

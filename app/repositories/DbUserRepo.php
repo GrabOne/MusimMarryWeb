@@ -322,5 +322,25 @@ class DbUserRepo extends \Exception implements UserRepo{
 				unset($user->twitter_id);
 				return $user;
 	}
+	/*
+	* check username exist
+	*/
+	public function CheckUsernameExist($username)
+	{
+		$count = User::where('username','=',$username)->count();
+		if($count > 0)
+			return true;
+		else
+			return false;
+	}
+	public function CheckEmailExist($email)
+	{
+		$count = User::where('email','=',$email)->count();
+		if ($count > 0)
+			return true;
+		else
+			return false;
+	}
+
 }
 ?>
