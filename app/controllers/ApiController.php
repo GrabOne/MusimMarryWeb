@@ -264,6 +264,7 @@ class ApiController extends Controller{
 	{
 		try {
 			extract(Input::only('username'));
+			$username = strtolower($username);
 			$data = $this->User->CheckUsernameExist($username);
 			return App::make('BaseController')->Success($data);
 		} catch (Exception $e) {
@@ -277,6 +278,7 @@ class ApiController extends Controller{
 	{
 		try {
 			extract(Input::only('email'));
+			$email = strtolower($email);
 			$data = $this->User->CheckEmailExist($email);
 			return App::make('BaseController')->Success($data);
 		} catch (Exception $e) {
@@ -290,10 +292,13 @@ class ApiController extends Controller{
 	{
 		try {
 			extract(Input::only('email','username'));
+			$email = strtolower($email);
+			$username = strtolower($username);
 			$data = [
 				'username' => $this->User->CheckUsernameExist($username),
-				'email'    => $this->User->CheckEmailExist($email);
+				'email'    => $this->User->CheckEmailExist($email),
 			]; 
+			return App::make('BaseController')->Success($data);
 		} catch (Exception $e) {
 			return App::make('BaseController')->Error($e);
 		}

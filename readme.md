@@ -425,3 +425,62 @@ Cache-Control: no-cache
     }
 }
 ```
+### 10. Check Username Exist
+```
+POST /api/v1/check-username-exist HTTP/1.1
+Host: muslimmarry.dev
+Content-Type: application/json
+Cache-Control: no-cache
+
+{"username":"thanchet"}
+```
+##### Result
+```
+{
+    "status": "success",
+    "data": {
+        "exist": true // true if exist 
+    }
+}
+```
+### 11. Check Email Exist
+```
+POST /api/v1/check-email-exist HTTP/1.1
+Host: muslimmarry.dev
+Content-Type: application/json
+Cache-Control: no-cache
+
+{"email":"pvh8692@gmail.com"}
+```
+##### Result
+```
+{
+    "status": "success",
+    "data": {
+        "exist": true // true if exist 
+    }
+}
+```
+### 12. Check Username & Email Exist
+```
+POST /api/v1/check-email-exist HTTP/1.1
+Host: muslimmarry.dev
+Content-Type: application/json
+Cache-Control: no-cache
+
+{"email":"pvh8692@gmail.com","username":"Thanchet"}
+```
+##### Result
+```
+{
+    "status": "success",
+    "data": {
+        "username": {
+            "exist": true
+        },
+        "email": {
+            "exist": true
+        }
+    }
+}
+```

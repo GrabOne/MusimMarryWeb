@@ -43,7 +43,7 @@ class DbUserRepo extends \Exception implements UserRepo{
 				throw new Exception($validator->messages(), 1);
 			else
 				$user = new User();
-				$user->username       = $username;
+				$user->username       = strtolower($username);
 				$user->email          = isset($email) ? $email : '';
 				$user->age            = isset($age) ? $age : '';
 				$user->birthday       = isset($birthday) ? $birthday : '';
@@ -100,7 +100,7 @@ class DbUserRepo extends \Exception implements UserRepo{
 				throw new Exception(STR_ERROR_EMAIL_EXIST, 3);
 			else
 				$user = new User();
-				$user->username       = $username;
+				$user->username       = strtolower($username);
 				$user->email      = $email;
 				$user->password       = $password;
 				$user->age            = $age;
@@ -186,7 +186,7 @@ class DbUserRepo extends \Exception implements UserRepo{
  		if($validator->fails())
  			throw new Exception($validator->messages(), 1);
  		else
-			isset($username) ? $user->username     = $username : '';
+			isset($username) ? $user->username     = strtolower($username) : '';
 			isset($birthday) ? $user->birthday     = $birthday : '';
 			isset($occupation) ? $user->occupation = $occupation : '';
 			isset($height) ? $user->height         = $height : '';
@@ -234,7 +234,7 @@ class DbUserRepo extends \Exception implements UserRepo{
  		if($validator->fails())
  			throw new Exception($validator->messages(), 1);
  		else
-			isset($username) ? $user->username     = $username : '';
+			isset($username) ? $user->username     = strtolower($username) : '';
 			isset($birthday) ? $user->birthday     = $birthday : '';
 			isset($occupation) ? $user->occupation = $occupation : '';
 			isset($height) ? $user->height         = $height : '';
@@ -329,17 +329,17 @@ class DbUserRepo extends \Exception implements UserRepo{
 	{
 		$count = User::where('username','=',$username)->count();
 		if($count > 0)
-			return true;
+			return ['exist' => true];
 		else
-			return false;
+			return ['exist' => false];
 	}
 	public function CheckEmailExist($email)
 	{
 		$count = User::where('email','=',$email)->count();
 		if ($count > 0)
-			return true;
+			return ['exist' => true];
 		else
-			return false;
+			return ['exist' => false];
 	}
 
 }
