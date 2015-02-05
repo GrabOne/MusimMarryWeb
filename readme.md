@@ -77,28 +77,19 @@ Content-Type: application/json
 Cache-Control: no-cache
 
 {
-    "status": "success",
-    "data": {
-        "username": "thanchet",
-        "nickname": "",
-        "email": "phamvanhieu@gmail.com",
-        "age": "23",
-        "gender": "men",
-        "avatar": "http://muslimmarry.dev/upload/avatar/1421531678-774-155x100.jpg",
-        "location": {
-            "country": "vietname",
-            "city": "hanoi",
-            "coordinates": {
-                "lat": "17.000",
-                "lng": "104.0000"
+    "username":"thanchet",
+    "email":"phamvanhieu@gmail.com",
+    "avatar":"http://muslimmarry.dev/upload/avatar/1421531678-774-155x100.jpg",
+    "age":"23",
+    "gender":"men",
+    "password":"password",
+    "location":{
+            "country":"vietname",
+            "city":"hanoi",
+            "coordinates":{ 
+                    "lat":"17.000",
+                    "lng":"104.0000"
             }
-        },
-        "remember_token": "$2y$10$4YvQrusDw2jLwfviPcDzquBxe6j.6hh0hIgigF/yxwSWmQwSavQti",
-        "occupation": "",
-        "height": "",
-        "language": [],
-        "promocode": "YCjWp4",
-        "_id": "54d3ebb0bffebc3b127b23c6"
     }
 }
 ```
@@ -116,22 +107,26 @@ Cache-Control: no-cache
 {
     "status": "success",
     "data": {
-        "username": "Thanchet",
-        "email": "pvh@gmail.com",
+        "username": "thanchet",
+        "nickname": "",
+        "email": "phamvanhieu@gmail.com",
         "age": "23",
         "gender": "men",
-        "avatar": "",
+        "avatar": "http://muslimmarry.dev/upload/avatar/1421531678-774-155x100.jpg",
         "location": {
-            "contry": "vietname",
+            "country": "vietname",
             "city": "hanoi",
             "coordinates": {
                 "lat": "17.000",
                 "lng": "104.0000"
             }
         },
-        "remember_token": "$2y$10$ZQnov14w6J5FNv2TFMirlOJZ/xl0CE/sEvCft2pFRInnbFFnAuJG.",
-        "promocode": "code6",
-        "_id": "54ba01d693d9b73c587b23c6"
+        "remember_token": "$2y$10$BLmSl4hONPB.iIhG3oYTgeIt76lSEDW8ncxMAY7FECx8x8heHsjSS",
+        "occupation": "",
+        "height": "",
+        "language": [],
+        "promocode": "wFu2cQ",
+        "_id": "54d3f540bffebc1e0e7b23c6"
     }
 }
 ```
