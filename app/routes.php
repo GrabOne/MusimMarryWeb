@@ -20,3 +20,4 @@ Route::get('/', function()
 App::bind('UserRepo','DbUserRepo');
 App::bind('PromocodeRepo','DbPromocodeRepo');
 App::bind('PaymentRepo','DbPaymentRepo');
+App::bind('OccupationRepo','DbOccupationRepo');

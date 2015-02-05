@@ -1,10 +1,13 @@
 <?php
 class ApiController extends Controller{
-	protected $User,$Payment;
-	public function __construct(UserRepo $User,PaymentRepo $Payment)
+	protected $User;
+	protected $Payment;
+	protected $Occupation;
+	public function __construct(UserRepo $User,PaymentRepo $Payment,OccupationRepo $Occupation)
 	{
 		$this->User = $User;
 		$this->Payment = $Payment;
+		$this->Occupation = $Occupation;
 	}
 	public function getIndex()
 	{
@@ -301,6 +304,13 @@ class ApiController extends Controller{
 		} catch (Exception $e) {
 			return App::make('BaseController')->Error($e);
 		}
+	}
+	/*
+	* get All occupations
+	*/
+	public function getOccupation(){
+		$data = $this->Occupation->getAll();
+		return App::make('BaseController')->Success($data);
 	}
 }
 ?>

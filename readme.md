@@ -517,3 +517,30 @@ Cache-Control: no-cache
     }
 }
 ```
+### 13. GET Occupation
+```
+GET /api/v1/occupation HTTP/1.1
+Host: muslimmarry.dev
+Content-Type: application/json
+Cache-Control: no-cache
+```
+##### Result
+```
+{
+    "status": "success",
+    "data": [
+        {
+            "_id": "54d3f38dbffebc6a148b4567",
+            "name": "teacher"
+        },
+        {
+            "_id": "54d3f38dbffebc6a148b4568",
+            "name": "doctor"
+        },
+        {
+            "_id": "54d3f38dbffebc6a148b4569",
+            "name": "student"
+        }
+    ]
+}
+```
