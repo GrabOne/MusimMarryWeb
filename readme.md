@@ -539,3 +539,26 @@ Cache-Control: no-cache
     ]
 }
 ```
+### 14. Get Language 
+```
+GET /api/v1/language HTTP/1.1
+Host: muslimmarry.dev
+Content-Type: application/json
+Cache-Control: no-cache
+```
+##### Result
+```
+{
+    "status": "success",
+    "data": [
+        {
+            "_id": "54d4015dbffebc45168b456d",
+            "name": "english"
+        },
+        {
+            "_id": "54d4015dbffebc45168b456e",
+            "name": "german"
+        }
+    ]
+}
+```

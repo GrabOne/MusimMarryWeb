@@ -3,11 +3,14 @@ class ApiController extends Controller{
 	protected $User;
 	protected $Payment;
 	protected $Occupation;
-	public function __construct(UserRepo $User,PaymentRepo $Payment,OccupationRepo $Occupation)
+	protected $Language;
+
+	public function __construct(UserRepo $User,PaymentRepo $Payment,OccupationRepo $Occupation,LanguageRepo $Language)
 	{
 		$this->User = $User;
 		$this->Payment = $Payment;
 		$this->Occupation = $Occupation;
+		$this->Language = $Language;
 	}
 	public function getIndex()
 	{
@@ -310,6 +313,14 @@ class ApiController extends Controller{
 	*/
 	public function getOccupation(){
 		$data = $this->Occupation->getAll();
+		return App::make('BaseController')->Success($data);
+	}
+	/*
+	* get Language 
+	*/
+	public function getLanguage()
+	{
+		$data = $this->Language->getAll();
 		return App::make('BaseController')->Success($data);
 	}
 }
