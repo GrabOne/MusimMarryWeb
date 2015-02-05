@@ -15,8 +15,8 @@ class CreateUsers extends Migration {
 		Schema::create('users', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->index('email');
-			$table->index('promocode');
+			// $table->index('email');
+			// $table->index('promocode');
 			$table->unique('promocode');
 			$table->timestamps();
 		});
