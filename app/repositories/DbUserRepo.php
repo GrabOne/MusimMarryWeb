@@ -49,7 +49,7 @@ class DbUserRepo extends \Exception implements UserRepo{
 				$user->birthday       = isset($birthday) ? $birthday : '';
 				$user->avatar         = isset($avatar) ? $avatar : '';
 				$user->remember_token = Hash::make(Str::random(10));
-				$user->location       = isset($location) ? $location : [];
+				$user->location       = isset($location) ? $location : ["city" => "","country" => ''];
 				$user->gender         = isset($gender) ? $gender : '';
 
 
@@ -106,9 +106,9 @@ class DbUserRepo extends \Exception implements UserRepo{
 				$user->age            = $age;
 				$user->gender         = $gender;
 				$user->avatar         = isset($avatar) ? $avatar : '';
-				$user->location       = isset($location) ? $location : [];	
+				$user->location       = isset($location) ? $location : ["city" => "","country" => ''];
 				$user->remember_token = Hash::make(Str::random(10));
-				$user->accupation = '';
+				$user->occupation = '';
 				$user->height = '';
 				$user->language = [];
 				$user->promocode = $this->Promocode->GenerateCode();
@@ -269,7 +269,7 @@ class DbUserRepo extends \Exception implements UserRepo{
 			throw new Exception($validator->messages(), 1);
 		else
 			$data = [];
-			$users = User::select('_id','accupation','age','avatar','birthday','email','height','language','location','promocode','username')->get();
+			$users = User::select('_id','occupation','age','avatar','birthday','email','height','language','location','promocode','username')->get();
 			foreach ($users as $user) {
 				// if($user->gender != $gender){
 				// 	continue;
