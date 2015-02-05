@@ -4,7 +4,7 @@ class User extends Moloquent implements UserInterface{
 	protected $collection = 'users';
 	protected $hidden = ['password','updated_at','created_at'];
 	public static $rules = [
-        'username'    => 'required|max:40',
+        'username'    => 'max:40|regex:/^[a-zA-Z0-9]+$/',
         'email'       => 'required|max:40|email',
         'age'         => 'regex:/^[0-9]+$/|max:2',
         'birthday'    => 'regex:/([0-9]{4})-([0-9]{2})-([0-9]{2})/',

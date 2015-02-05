@@ -1,6 +1,6 @@
 <?php
 interface UserRepo {
-	public function LoginSocial($username,$email,$avatar,$age,$gender,$birthday,$location,$facebook_id,$google_id,$twitter_id);
+	public function LoginSocial($nickname,$email,$avatar,$age,$gender,$birthday,$location,$facebook_id,$google_id,$twitter_id);
 	public function SignUp($username,$email,$password,$age,$gender,$avatar,$location);
 	public function NormalLogin($username,$password);
 	/*
@@ -10,7 +10,7 @@ interface UserRepo {
 	/*
 	* Edit social Account
 	*/
-	public function EditSocialAccount($user,$username,$birthday,$occupation,$height,$city,$language);
+	public function EditSocialAccount($user,$nickname,$birthday,$occupation,$height,$city,$language);
 	/*
 	* Change user avatar
 	*/
@@ -18,11 +18,11 @@ interface UserRepo {
 	/*
 	* Edit normal account
 	*/
-	public function EditNormalAccount($user,$username,$birthday,$occupation,$height,$city,$language,$password);
+	public function EditNormalAccount($user,$username,$nickname,$birthday,$occupation,$height,$city,$language,$password);
 	/*
 	* Search Profile
 	*/
-	public function Search($gender,$age,$distance,$language,$occupations,$height,$coordinates);
+	public function Search($user_id,$gender,$age,$distance,$language,$occupations,$height,$coordinates);
 	/*
 	* get user profile
 	*/

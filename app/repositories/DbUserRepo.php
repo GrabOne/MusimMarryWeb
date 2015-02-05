@@ -5,7 +5,7 @@ class DbUserRepo extends \Exception implements UserRepo{
 	{
 		$this->Promocode = $Promocode;
 	}
-	public function LoginSocial($username,$email,$avatar,$age,$gender,$birthday,$location,$facebook_id = null,$google_id = null,$twitter_id = null)
+	public function LoginSocial($nickname,$email,$avatar,$age,$gender,$birthday,$location,$facebook_id = null,$google_id = null,$twitter_id = null)
 	{
 		$type = '';
 		if(isset($facebook_id) && $facebook_id != ''){
@@ -32,7 +32,7 @@ class DbUserRepo extends \Exception implements UserRepo{
 			return $user->first();
 		else
 			$vali = [
-				'username' => $username,
+				'nickname' => $nickname,
 				'email'    => $email,
 				'age'      => $age,
 				'gender'   => $gender,
@@ -43,8 +43,8 @@ class DbUserRepo extends \Exception implements UserRepo{
 				throw new Exception($validator->messages(), 1);
 			else
 				$user = new User();
-				$user->username       = strtolower($username);
-				$user->email          = isset($email) ? $email : '';
+				$user->nickname       = $nickname;
+				$user->email          = isset($email) ? strtolower($email) : '';
 				$user->age            = isset($age) ? $age : '';
 				$user->birthday       = isset($birthday) ? $birthday : '';
 				$user->avatar         = isset($avatar) ? $avatar : '';
@@ -101,17 +101,18 @@ class DbUserRepo extends \Exception implements UserRepo{
 			else
 				$user = new User();
 				$user->username       = strtolower($username);
-				$user->email      = $email;
+				$user->nickname       = '';
+				$user->email          = $email;
 				$user->password       = $password;
 				$user->age            = $age;
 				$user->gender         = $gender;
 				$user->avatar         = isset($avatar) ? $avatar : '';
 				$user->location       = isset($location) ? $location : ["city" => "","country" => ''];
 				$user->remember_token = Hash::make(Str::random(10));
-				$user->occupation = '';
-				$user->height = '';
-				$user->language = [];
-				$user->promocode = $this->Promocode->GenerateCode();
+				$user->occupation     = '';
+				$user->height         = '';
+				$user->language       = [];
+				$user->promocode      = $this->Promocode->GenerateCode();
 				$user->save();
 				Cache::put('u_'.$user->_id,$user,CACHE_TIME);
 				return $user;
@@ -165,10 +166,10 @@ class DbUserRepo extends \Exception implements UserRepo{
 	/*
 	* Edit social account
 	*/
-	public function EditSocialAccount($user,$username,$birthday,$occupation,$height,$city,$language)
+	public function EditSocialAccount($user,$nickname,$birthday,$occupation,$height,$city,$language)
 	{
 		$vali = [
-			'username'   => $username,
+			'nickname'   => $nickname,
 			'birthday'   => $birthday,
 			'occupation' => $occupation,
 			'height'     => $height,
@@ -176,7 +177,6 @@ class DbUserRepo extends \Exception implements UserRepo{
 			'language'   => $language,
  		];
  		$rules = [
-			'username'   => 'max:40|min:4',
 			'birthday'   => 'date',
 			'occupation' => 'max:100',
 			'height'     => 'regex:/^[0-9,\.]+$/|max:6',
@@ -186,9 +186,9 @@ class DbUserRepo extends \Exception implements UserRepo{
  		if($validator->fails())
  			throw new Exception($validator->messages(), 1);
  		else
-			isset($username) ? $user->username     = strtolower($username) : '';
+			isset($nickname) ? $user->nickname     = $nickname : '';
 			isset($birthday) ? $user->birthday     = $birthday : '';
-			isset($occupation) ? $user->occupation = $occupation : '';
+			isset($occupation) ? $user->occupation = strtolower($occupation) : '';
 			isset($height) ? $user->height         = $height : '';
 			if(isset($city)){
 				$location = $user->location;
@@ -196,7 +196,7 @@ class DbUserRepo extends \Exception implements UserRepo{
 				$user->location = $location;
 			}
 			if(isset($language)){
-				$user->language = $language;
+				$user->language = array_map('strtolower',$language);
 			}
 			$user->save();
 			return $user;
@@ -213,7 +213,7 @@ class DbUserRepo extends \Exception implements UserRepo{
 	/*
 	* Edit normal account
 	*/
-	public function EditNormalAccount($user,$username,$birthday,$occupation,$height,$city,$language,$password)
+	public function EditNormalAccount($user,$username,$nickname,$birthday,$occupation,$height,$city,$language,$password)
 	{
 		$vali = [
 			'username'   => $username,
@@ -235,8 +235,9 @@ class DbUserRepo extends \Exception implements UserRepo{
  			throw new Exception($validator->messages(), 1);
  		else
 			isset($username) ? $user->username     = strtolower($username) : '';
+			isset($nickname) ? $user->nickname     = $nickname : '';
 			isset($birthday) ? $user->birthday     = $birthday : '';
-			isset($occupation) ? $user->occupation = $occupation : '';
+			isset($occupation) ? $user->occupation = strtolower($occupation) : '';
 			isset($height) ? $user->height         = $height : '';
 			if(isset($city)){
 				$location = $user->location;
@@ -244,13 +245,13 @@ class DbUserRepo extends \Exception implements UserRepo{
 				$user->location = $location;
 			}
 			if(isset($language)){
-				$user->language = $language;
+				$user->language = array_map('strtolower', $language);
 			}
 			isset($password) ? $user->password = $password : '';
 			$user->save();
 			return $user;
 	}
-	public function Search($gender,$age,$distance,$language,$occupations,$height,$coordinates)
+	public function Search($user_id,$gender,$age,$distance,$language,$occupations,$height,$coordinates)
 	{
 		$vali = [
 			'gender'      => $gender,
@@ -269,11 +270,14 @@ class DbUserRepo extends \Exception implements UserRepo{
 			throw new Exception($validator->messages(), 1);
 		else
 			$data = [];
-			$users = User::select('_id','occupation','age','avatar','birthday','email','height','language','location','promocode','username')->get();
+			$users = User::select('_id','occupation','age','gender','avatar','birthday','email','height','language','location','promocode','username')->get();
 			foreach ($users as $user) {
-				// if($user->gender != $gender){
-				// 	continue;
-				// }
+				if($user->_id == $user_id){
+					continue;
+				}
+				if($user->gender != $gender){
+					continue;
+				}
 				$array_intersect = array_intersect($language,$user->language);
 				if(count($array_intersect) == 0){
 					continue;

@@ -13,9 +13,8 @@ class ApiController extends Controller{
 	public function postLoginSocial()
 	{
 		try {
-			extract(Input::only('username','email','avatar','age','gender','birthday','location','facebook_id','google_id','twitter_id'));
-
-			$user = $this->User->LoginSocial($username,$email,$avatar,$age,$gender,$birthday,$location,$facebook_id,$google_id,$twitter_id);
+			extract(Input::only('nickname','email','avatar','age','gender','birthday','location','facebook_id','google_id','twitter_id'));
+			$user = $this->User->LoginSocial($nickname,$email,$avatar,$age,$gender,$birthday,$location,$facebook_id,$google_id,$twitter_id);
 
 			return App::make('BaseController')->Success($user);
 		} catch (Exception $e) {
@@ -85,11 +84,11 @@ class ApiController extends Controller{
 	public function putEditSocialAccount()
 	{
 		try {
-			extract(Input::only('user_id','remember_token','username','birthday','occupation','height','city','language'));
+			extract(Input::only('user_id','remember_token','nickname','birthday','occupation','height','city','language'));
 			
 			$user = $this->User->checkRememberToken($user_id,$remember_token);
 			
-			$this->User->EditSocialAccount($user,$username,$birthday,$occupation,$height,$city,$language);
+			$this->User->EditSocialAccount($user,$nickname,$birthday,$occupation,$height,$city,$language);
 			
 			return App::make('BaseController')->Success($user);
 		} catch (Exception $e) {
@@ -102,11 +101,11 @@ class ApiController extends Controller{
 	public function putEditNormalAccount()
 	{
 		try {
-			extract(Input::only('user_id','remember_token','username','birthday','occupation','height','city','language','password'));
+			extract(Input::only('user_id','remember_token','username','nickname','birthday','occupation','height','city','language','password'));
 			
 			$user = $this->User->checkRememberToken($user_id,$remember_token);
 			
-			$this->User->EditNormalAccount($user,$username,$birthday,$occupation,$height,$city,$language,$password);
+			$this->User->EditNormalAccount($user,$username,$nickname,$birthday,$occupation,$height,$city,$language,$password);
 			
 			return App::make('BaseController')->Success($user);
 		} catch (Exception $e) {
@@ -123,7 +122,7 @@ class ApiController extends Controller{
 
 			$this->User->checkRememberToken($user_id,$remember_token);
 
-			$data = $this->User->Search($gender,$age,$distance,$language,$occupations,$height,$coordinates);
+			$data = $this->User->Search($user_id,$gender,$age,$distance,$language,$occupations,$height,$coordinates);
 			
 			return ['status' => 'success', 'data' => $data];
 		} catch (Exception $e) {
