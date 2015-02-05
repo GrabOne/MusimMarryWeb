@@ -2,7 +2,7 @@
 ## Link POST MAN
 #### 2/2/2015
 ```
-https://www.getpostman.com/collections/c99cccf99527392a1cb3
+https://www.getpostman.com/collections/c9d557215f312f0545a9
 ```
 ## API
 ### 1. Login with social account: facebook_id || google_id || twitter_id 
