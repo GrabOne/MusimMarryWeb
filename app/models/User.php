@@ -2,7 +2,7 @@
 use Illuminate\Auth\UserInterface;
 class User extends Moloquent implements UserInterface{
 	protected $collection = 'users';
-	protected $hidden = ['password','updated_at','created_at'];
+	protected $hidden = ['password','updated_at','created_at','occupation','language'];
 	public static $rules = [
         'username'    => 'max:40|regex:/^[a-zA-Z0-9]+$/',
         'email'       => 'required|max:40|email',
