@@ -49,7 +49,7 @@ class DbUserRepo extends \Exception implements UserRepo{
 				$user->birthday       = isset($birthday) ? $birthday : '';
 				$user->avatar         = isset($avatar) ? $avatar : '';
 				$user->remember_token = Hash::make(Str::random(10));
-				$user->location       = isset($location) ? $location : ["city" => '',"country" => '','coordinates' => ['lat'=>'','lng','']];
+				$user->location       = isset($location) ? $location : ["city" => '',"country" => '','coordinates' => ['lat'=>'','lng'=>'']];
 				$user->gender         = isset($gender) ? $gender : '';
 
 
@@ -107,7 +107,7 @@ class DbUserRepo extends \Exception implements UserRepo{
 				$user->age            = $age;
 				$user->gender         = $gender;
 				$user->avatar         = isset($avatar) ? $avatar : '';
-				$user->location       = isset($location) ? $location : ["city" => "","country" => '','coordinates' => ['lat'=>'','lng','']];
+				$user->location       = isset($location) ? $location : ["city" => "","country" => '','coordinates' => ['lat'=>'','lng'=>'']];
 				$user->remember_token = Hash::make(Str::random(10));
 				$user->occupation     = '';
 				$user->height         = '';
