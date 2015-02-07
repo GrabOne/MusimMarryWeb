@@ -23,6 +23,9 @@ define('STR_ERROR_FILE_NOT_FOUND', 'File not found'); //4
 define('STR_ERROR_USERNAME_NOT_FOUND', 'Username not found'); //5
 define('STR_ERROR_PASSWORD_NOT_MATCH', 'Password not match'); //6
 define('STR_ERROR_REMEMBER_TOKEN', 'Remeber token not match'); //7
+define('STR_ERROR_USER_NOT_FOUND', 'User not found'); //8
+define('STR_ERROR_REASON_NOT_FOUND', 'User not found'); //9
+define('STR_ERROR_USER_BLOCKED', 'User has been blocked'); //10
 
 
 

@@ -562,3 +562,66 @@ Cache-Control: no-cache
     ]
 }
 ```
+### 15. Block User
+```
+POST /api/v1/block-user HTTP/1.1
+Host: muslimmarry.dev
+Content-Type: application/json
+Cache-Control: no-cache
+
+{ 
+    "user_id":"54d49e3893d9b7245c7b23c7", 
+    "remember_token":"$2y$10$T7rqDlBEYPvq9ucBaC6wEemO/agLLX5Zs0zJjUaEavX5ewQrsSaES", 
+    "user_block_id":"54d3338593d9b79f7b7b23c6", 
+    "type": 2 // type = 1 block 30 day, type = 2 block permanently
+}
+```
+##### Result
+```
+{
+    "status": "success"
+}
+```
+### 16. Report User
+```
+POST /api/v1/report-user HTTP/1.1
+Host: muslimmarry.dev
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+    "user_id":"54d49e3893d9b7245c7b23c7",
+    "remember_token":"$2y$10$T7rqDlBEYPvq9ucBaC6wEemO/agLLX5Zs0zJjUaEavX5ewQrsSaES",
+    "user_report_id":"54d3338593d9b79f7b7b23c6",
+    "reason_id":"54d65fe1bffebca00e8b4572" // có thể bỏ trường này, 
+}
+```
+##### Result
+```
+{
+    "status": "success"
+}
+```
+### 17.get report reason // dùng khi sau này app có thể thêm lí do report
+```
+GET /api/v1/ HTTP/1.1
+Host: muslimmarry.dev
+Content-Type: application/json
+Cache-Control: no-cache
+```
+##### Result
+```
+{
+    "status": "success",
+    "data": [
+        {
+            "_id": "54d65fe1bffebca00e8b4572",
+            "reason": "He/She is spammer"
+        },
+        {
+            "_id": "54d65fe1bffebca00e8b4573",
+            "reason": "I don't like him/her"
+        }
+    ]
+}
+```

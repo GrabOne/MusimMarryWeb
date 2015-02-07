@@ -4,13 +4,17 @@ class ApiController extends Controller{
 	protected $Payment;
 	protected $Occupation;
 	protected $Language;
+	protected $Report;
+	protected $Block;
 
-	public function __construct(UserRepo $User,PaymentRepo $Payment,OccupationRepo $Occupation,LanguageRepo $Language)
+	public function __construct(UserRepo $User,PaymentRepo $Payment,OccupationRepo $Occupation,LanguageRepo $Language, ReportRepo $Report, BlockRepo $Block)
 	{
 		$this->User = $User;
 		$this->Payment = $Payment;
 		$this->Occupation = $Occupation;
 		$this->Language = $Language;
+		$this->Report = $Report;
+		$this->Block = $Block;
 	}
 	public function getIndex()
 	{
@@ -322,6 +326,42 @@ class ApiController extends Controller{
 	{
 		$data = $this->Language->getAll();
 		return App::make('BaseController')->Success($data);
+	}
+	/*
+	* get report reason
+	*/
+	public function getReportReason()
+	{
+		$data = $this->Report->getReportReason();
+		return App::make('BaseController')->Success($data);
+	}
+	/*
+	* report user
+	*/
+	public function postReportUser()
+	{
+		try {
+			extract(Input::only('user_id','remember_token','user_report_id','reason_id'));
+			$user = $this->User->checkRememberToken($user_id,$remember_token);
+			$this->Report->ReportUser($user,$user_report_id,$reason_id);
+			return App::make('BaseController')->Success();
+		} catch (Exception $e) {
+			return App::make('BaseController')->Error($e);
+		}
+	}
+	/*
+	* block user
+	*/
+	public function postBlockUser()
+	{
+		try {
+			extract(Input::only('user_id','remember_token','user_block_id','type'));
+			$user = $this->User->checkRememberToken($user_id,$remember_token);
+			$this->Block->BlockUser($user,$user_block_id,$type);
+			return App::make('BaseController')->Success();
+		} catch (Exception $e) {
+			return App::make('BaseController')->Error($e);
+		}
 	}
 }
 ?>

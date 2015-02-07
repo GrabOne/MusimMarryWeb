@@ -35,5 +35,6 @@ interface UserRepo {
 	* check Email exist
 	*/
 	public function CheckEmailExist($email);
+	
 }
 ?>

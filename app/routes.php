@@ -22,3 +22,5 @@ App::bind('PromocodeRepo','DbPromocodeRepo');
 App::bind('PaymentRepo','DbPaymentRepo');
 App::bind('OccupationRepo','DbOccupationRepo');
 App::bind('LanguageRepo','DbLanguageRepo');
+App::bind('ReportRepo','DbReportRepo');
+App::bind('BlockRepo','DbBlockRepo');

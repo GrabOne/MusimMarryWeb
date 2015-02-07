@@ -271,6 +271,7 @@ class DbUserRepo extends \Exception implements UserRepo{
 		else
 			$data = [];
 			$users = User::select('_id','occupation','age','gender','avatar','birthday','email','height','language','location','promocode','username','nickname')->get();
+
 			foreach ($users as $user) {
 				if($user->_id == $user_id){
 					continue;
