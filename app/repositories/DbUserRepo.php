@@ -303,7 +303,6 @@ class DbUserRepo extends \Exception implements UserRepo{
 					foreach ($u->block_30_day as $block) {
 						if($block['_id'] == $user->_id){
 							$check = true;
-							return true;
 						}
 					}
 					if($check){
