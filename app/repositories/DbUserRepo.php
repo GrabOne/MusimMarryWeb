@@ -273,6 +273,7 @@ class DbUserRepo extends \Exception implements UserRepo{
 			$users = User::select('_id','occupation','age','gender','avatar','birthday','email','height','language','location','promocode','username','nickname')->get();
 
 			foreach ($users as $user) {
+				
 				if($user->_id == $user_id){
 					continue;
 				}
@@ -286,7 +287,29 @@ class DbUserRepo extends \Exception implements UserRepo{
 				if($user->height < $height['from'] || $user->height > $height['to']){
 					continue;
 				}
-
+				/*
+				* check block permanently
+				*/
+				if(isset($user->block_permanently) && count($user->block_permanently) > 0){
+					if(in_array($user_id, $user->block_permanently)){
+						continue;
+					}
+				}
+				/*
+				* check block 30 day
+				*/
+				if(isset($user->block_30_day) && count($user->block_30_day) > 0){
+					$check = false;
+					foreach ($user->block_30_day as $block) {
+						if(block->_id == $user_id){
+							$check = true;
+							return true;
+						}
+					}
+					if($check){
+						continue;
+					}
+				}
 				$dis = App::make('BaseController')->calcDistance($coordinates['lat'],$coordinates['lng'],$user->location['coordinates']['lat'],$user->location['coordinates']['lng']);
 				
 
