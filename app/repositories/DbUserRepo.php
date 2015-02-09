@@ -301,7 +301,7 @@ class DbUserRepo extends \Exception implements UserRepo{
 				if(isset($user->block_30_day) && count($user->block_30_day) > 0){
 					$check = false;
 					foreach ($user->block_30_day as $block) {
-						if(block['_id'] == $user_id){
+						if($block['_id'] == $user_id){
 							$check = true;
 							return true;
 						}
