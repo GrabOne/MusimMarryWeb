@@ -10,8 +10,7 @@ class DbReportRepo extends \Exception implements ReportRepo{
 		if(isset($reason_id)){
 			$reason      = ReportReason::find($reason_id);
 		}else{
-			$reason      = ReportReason::get();
-			$reason      = $reason[0];
+			$reason      = ReportReason::first();
 		}
 		if(empty($user))
 			throw new Exception(STR_ERROR_USER_NOT_FOUND, 8);
