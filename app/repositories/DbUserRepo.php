@@ -292,7 +292,7 @@ class DbUserRepo extends \Exception implements UserRepo{
 				*/
 				if(isset($user->block_permanently) && count($user->block_permanently) > 0){
 					if(in_array($user_id, $user->block_permanently)){
-						continue
+						continue;
 					}
 				}
 				/*
