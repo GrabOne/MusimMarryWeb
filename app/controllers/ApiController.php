@@ -130,9 +130,9 @@ class ApiController extends Controller{
 		try {
 			extract(Input::all('user_id','remember_token','gender','age','distance','language','occupations','height','coordinates'));
 
-			$this->User->checkRememberToken($user_id,$remember_token);
+			$user = $this->User->checkRememberToken($user_id,$remember_token);
 
-			$data = $this->User->Search($user_id,$gender,$age,$distance,$language,$occupations,$height,$coordinates);
+			$data = $this->User->Search($user_id,$user,$gender,$age,$distance,$language,$occupations,$height,$coordinates);
 			
 			return ['status' => 'success', 'data' => $data];
 		} catch (Exception $e) {

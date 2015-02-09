@@ -22,7 +22,7 @@ interface UserRepo {
 	/*
 	* Search Profile
 	*/
-	public function Search($user_id,$gender,$age,$distance,$language,$occupations,$height,$coordinates);
+	public function Search($user_id,$u,$gender,$age,$distance,$language,$occupations,$height,$coordinates);
 	/*
 	* get user profile
 	*/

@@ -251,7 +251,7 @@ class DbUserRepo extends \Exception implements UserRepo{
 			$user->save();
 			return $user;
 	}
-	public function Search($user_id,$gender,$age,$distance,$language,$occupations,$height,$coordinates)
+	public function Search($user_id,$u,$gender,$age,$distance,$language,$occupations,$height,$coordinates)
 	{
 		$vali = [
 			'gender'      => $gender,
@@ -290,18 +290,18 @@ class DbUserRepo extends \Exception implements UserRepo{
 				/*
 				* check block permanently
 				*/
-				if(isset($user->block_permanently) && count($user->block_permanently) > 0){
-					if(in_array($user_id, $user->block_permanently)){
+				if(isset($u->block_permanently) && count($u->block_permanently) > 0){
+					if(in_array($user->_id, $u->block_permanently)){
 						continue;
 					}
 				}
 				/*
 				* check block 30 day
 				*/
-				if(isset($user->block_30_day) && count($user->block_30_day) > 0){
+				if(isset($u->block_30_day) && count($u->block_30_day) > 0){
 					$check = false;
-					foreach ($user->block_30_day as $block) {
-						if($block['_id'] == $user_id){
+					foreach ($u->block_30_day as $block) {
+						if($block['_id'] == $user->_id){
 							$check = true;
 							return true;
 						}
