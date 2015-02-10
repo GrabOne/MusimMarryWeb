@@ -24,7 +24,7 @@ class DbUserRepo extends \Exception implements UserRepo{
 			case 'google':
 				$user = User::where('google_id','=',$google_id);
 				break;
-			case 'facebook':
+			case 'twitter':
 				$user = User::where('twitter','=',$twitter_id);
 				break;
 		}
