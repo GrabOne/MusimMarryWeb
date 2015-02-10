@@ -60,7 +60,7 @@ class DbUserRepo extends \Exception implements UserRepo{
 					case 'google':
 						$user->google_id = $google_id;
 						break;
-					case 'facebook':
+					case 'twitter':
 						$user->twitter_id = $twitter_id;
 						break;
 				}		
