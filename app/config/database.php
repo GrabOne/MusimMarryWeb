@@ -54,10 +54,10 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => 'localhost',
-			'database'  => 'newgrabone',
-			'username'  => 'root',
-			'password'  => 'camp@coders',
+			'host'      => 'host',
+			'database'  => 'databasename',
+			'username'  => 'username',
+			'password'  => 'password',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
