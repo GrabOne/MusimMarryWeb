@@ -1,0 +1,18 @@
+label.error{
+	font-size: 10px;
+	font-weight: normal;
+	color: #c0392b!important;
+}
+span.glyphicon-remove{
+	color: #c0392b;
+	cursor: pointer;
+}
+li.list-group-item{
+	cursor: pointer;
+}
+li.list-group-item:hover{
+	color: #3498db;
+}
+nav a:hover{
+	color: #3498db!important;
+}

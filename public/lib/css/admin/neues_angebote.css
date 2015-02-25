@@ -1,0 +1,29 @@
+.form-group{
+	position: relative
+}
+label{
+	font-weight: normal!important;
+	font-size: 12px!important;
+}
+label.error{
+	position: absolute;
+	width: 200px;
+	top: 55px;
+	left: 0px;
+	font-size: 11px!important;
+}
+#start_date-error, #end_date-error{
+	top: 35px;
+}
+.description{
+	min-height: 133px;
+}
+#image-error{
+	position: relative!important;	
+	margin-top: -50px;	
+}
+#select_time_modal .list-group-item input{
+	height: 30px;
+	padding: 0px 10px;
+	margin-bottom: 3px;
+}

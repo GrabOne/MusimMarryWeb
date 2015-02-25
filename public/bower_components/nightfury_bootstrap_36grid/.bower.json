@@ -1,0 +1,14 @@
+{
+  "name": "nightfury_bootstrap_36grid",
+  "homepage": "https://github.com/thanchet/nightfury_bootstrap_36grid",
+  "_release": "e3923ee6aa",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "e3923ee6aa1fde82183cd60e29342cc41fba4c20"
+  },
+  "_source": "git://github.com/thanchet/nightfury_bootstrap_36grid.git",
+  "_target": "*",
+  "_originalSource": "nightfury_bootstrap_36grid",
+  "_direct": true
+}

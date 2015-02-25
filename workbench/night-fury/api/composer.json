@@ -1,0 +1,25 @@
+{
+    "name": "night-fury/api",
+    "description": "",
+    "authors": [
+        {
+            "name": "NightFury",
+            "email": "pvh8692@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations",
+            "src/repositories",
+            "src/controllers"
+        ],
+        "psr-0": {
+            "NightFury\\Api\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
